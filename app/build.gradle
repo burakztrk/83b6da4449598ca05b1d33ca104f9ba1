@@ -65,5 +65,9 @@ dependencies {
     //Lottie
     implementation "com.airbnb.android:lottie:$lottieVersion"
 
+    //Material Views
+    implementation "com.google.android.material:material:$materialVersion"
+
+
 
 }

@@ -1,4 +1,10 @@
 <resources>
     <string name="app_name">Outer Worlds</string>
     <string name="app_title">Outer Worlds Colony</string>
+    <string name="enter_name">Enter Name</string>
+    <string name="strength">Dayanıklılık</string>
+    <string name="speed">Hız</string>
+    <string name="capacity">Kapasite</string>
+    <string name="confirmation">Devam Et</string>
+    <string name="total_points">Dağıtılacak Puan:</string>
 </resources>
