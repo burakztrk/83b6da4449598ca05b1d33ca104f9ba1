@@ -86,3 +86,8 @@ lint/tmp/
 
 # Android Profiling
 *.hprof
+/.idea/.gitignore
+/.idea/.name
+/.idea/codeStyles/codeStyleConfig.xml
+/.idea/compiler.xml
+/app/src/androidTest/java/com/ozturkburak/outerworlds/ExampleInstrumentedTest.kt

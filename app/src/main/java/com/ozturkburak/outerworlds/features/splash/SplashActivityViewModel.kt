@@ -1,9 +1,9 @@
-package com.ozturkburak.outerworlds
+package com.ozturkburak.outerworlds.features.splash
 
 import androidx.lifecycle.ViewModel
 import com.orhanobut.logger.Logger
 
-class MainActivityViewModel : ViewModel() {
+class SplashActivityViewModel : ViewModel() {
     init {
         Logger.d("ViewModel init")
     }
