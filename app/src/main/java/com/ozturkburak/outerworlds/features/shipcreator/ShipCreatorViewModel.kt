@@ -9,12 +9,13 @@ import androidx.lifecycle.viewModelScope
 import com.ozturkburak.outerworlds.R
 import com.ozturkburak.outerworlds.base.ResourcesProvider
 import com.ozturkburak.outerworlds.database.entity.ShipEntity
+import com.ozturkburak.outerworlds.repo.ShipRepository
 import com.ozturkburak.outerworlds.repo.ShipRepositoryImpl
 import kotlinx.coroutines.launch
 
 class ShipCreatorViewModel(
     private val resources: ResourcesProvider,
-    private val shipRepo: ShipRepositoryImpl
+    private val shipRepo: ShipRepository
 ) : ViewModel() {
 
     companion object {
