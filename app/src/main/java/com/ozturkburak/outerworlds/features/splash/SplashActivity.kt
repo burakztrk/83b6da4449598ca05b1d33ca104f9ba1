@@ -24,7 +24,7 @@ class SplashActivity : AppCompatActivity() {
         binding = ActivitySplashBinding.inflate(layoutInflater)
         setContentView(binding.root)
         initUI()
-        startShipCreatorActivity()
+        startShipCreatorActivity() // FIXME: 2/6/21 kaldirialcak
     }
 
     private fun initUI() {

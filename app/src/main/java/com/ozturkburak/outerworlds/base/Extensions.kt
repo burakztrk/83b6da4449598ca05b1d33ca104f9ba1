@@ -1,6 +1,9 @@
 package com.ozturkburak.outerworlds.base
 
 import android.animation.Animator
+import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.Observer
 import com.airbnb.lottie.LottieAnimationView
 
 fun LottieAnimationView.onAnimationEnd(task: () -> Unit) {
@@ -17,4 +20,8 @@ fun LottieAnimationView.onAnimationEnd(task: () -> Unit) {
             }
         }
     )
+}
+
+fun <T> AppCompatActivity.observeLiveData(liveData: LiveData<T>, observer: Observer<T>) {
+    liveData.observe(this, observer)
 }
