@@ -1,10 +1,12 @@
 package com.ozturkburak.outerworlds.features.shipcreator
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.snackbar.Snackbar
 import com.ozturkburak.outerworlds.base.observeLiveData
 import com.ozturkburak.outerworlds.databinding.ActivityShipCreatorBinding
+import com.ozturkburak.outerworlds.features.stationlist.StationListActivity
 import org.koin.android.viewmodel.ext.android.viewModel
 
 
@@ -59,10 +61,19 @@ class ShipCreatorActivity : AppCompatActivity() {
 
             }
 
-            observeLiveData(viewModel.showErrorLiveData) {
+            observeLiveData(showErrorLiveData) {
                 showError(it)
             }
+
+            observeLiveData(startStationListLiveData) {
+                startStationList()
+            }
         }
+    }
+
+    private fun startStationList() {
+        startActivity(Intent(this@ShipCreatorActivity, StationListActivity::class.java))
+        finish()
     }
 
     private fun showError(message: String) {

@@ -8,6 +8,7 @@ import com.ozturkburak.outerworlds.database.GameDatabase
 import com.ozturkburak.outerworlds.database.dao.ShipDao
 import com.ozturkburak.outerworlds.features.shipcreator.ShipCreatorViewModel
 import com.ozturkburak.outerworlds.features.splash.SplashActivityViewModel
+import com.ozturkburak.outerworlds.features.stationlist.StationListViewModel
 import com.ozturkburak.outerworlds.repo.ShipRepositoryImpl
 import org.koin.android.viewmodel.dsl.viewModel
 import org.koin.dsl.module
@@ -15,7 +16,12 @@ import org.koin.dsl.module
 val viewModelModule = module {
     viewModel {
         SplashActivityViewModel()
+    }
+    viewModel {
         ShipCreatorViewModel(resources = get(), shipRepo = get())
+    }
+    viewModel {
+        StationListViewModel()
     }
 }
 

@@ -39,6 +39,9 @@ class ShipCreatorViewModel(
     private val _showErrorLiveData = MutableLiveData<String>()
     val showErrorLiveData: LiveData<String> get() = _showErrorLiveData
 
+    private val _startStationListLiveData = MutableLiveData<Unit>()
+    val startStationListLiveData: MutableLiveData<Unit> get() = _startStationListLiveData
+
     init {
         updateTotalPoints()
     }
@@ -102,6 +105,7 @@ class ShipCreatorViewModel(
             )
             viewModelScope.launch {
                 shipRepo.saveShipData(shipData)
+                _startStationListLiveData.postValue(Unit)
             }
         }
     }
