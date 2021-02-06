@@ -10,4 +10,6 @@
     <string name="error_name_empty">İsim boş geçilemez!</string>
     <string name="error_points">Tüm puanları dağıtmalısın!</string>
     <string name="error_ability">Yetenek boş olamaz!</string>
+    <string name="tab_station">Istasyon</string>
+    <string name="tab_favorite">Favoriler</string>
 </resources>
