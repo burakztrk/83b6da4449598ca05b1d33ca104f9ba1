@@ -3,6 +3,9 @@ package com.ozturkburak.outerworlds.application
 import android.app.Application
 import com.orhanobut.logger.AndroidLogAdapter
 import com.orhanobut.logger.Logger
+import com.ozturkburak.outerworlds.di.databaseModule
+import com.ozturkburak.outerworlds.di.module
+import com.ozturkburak.outerworlds.di.repositoryModule
 import com.ozturkburak.outerworlds.di.viewModelModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
@@ -18,7 +21,10 @@ class OuterWorldsApp : Application() {
             androidContext(this@OuterWorldsApp)
             modules(
                 listOf(
-                    viewModelModule
+                    viewModelModule,
+                    module,
+                    databaseModule,
+                    repositoryModule
                 )
             )
         }

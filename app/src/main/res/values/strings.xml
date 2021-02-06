@@ -7,4 +7,7 @@
     <string name="capacity">Kapasite</string>
     <string name="confirmation">Devam Et</string>
     <string name="total_points">Dağıtılacak Puan:</string>
+    <string name="error_name_empty">İsim boş geçilemez!</string>
+    <string name="error_points">Tüm puanları dağıtmalısın!</string>
+    <string name="error_ability">Yetenek boş olamaz!</string>
 </resources>

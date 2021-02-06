@@ -1,11 +1,21 @@
 package com.ozturkburak.outerworlds.features.shipcreator
 
+import androidx.annotation.StringRes
 import androidx.databinding.ObservableField
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.ozturkburak.outerworlds.R
+import com.ozturkburak.outerworlds.base.ResourcesProvider
+import com.ozturkburak.outerworlds.database.entity.ShipEntity
+import com.ozturkburak.outerworlds.repo.ShipRepositoryImpl
+import kotlinx.coroutines.launch
 
-class ShipCreatorViewModel : ViewModel() {
+class ShipCreatorViewModel(
+    private val resources: ResourcesProvider,
+    private val shipRepo: ShipRepositoryImpl
+) : ViewModel() {
 
     companion object {
         private const val TOTAL_POINTS = 15
@@ -34,33 +44,33 @@ class ShipCreatorViewModel : ViewModel() {
     }
 
     fun onStrengthChanged(newValue: Int) {
-            inputStrength = newValue
-            if (getUsedPoints() > TOTAL_POINTS) {
-                val gap = getUsedPoints() - TOTAL_POINTS
-                inputStrength -= gap
-                strengthLiveData.value = inputStrength
-            }
-            updateTotalPoints()
+        inputStrength = newValue
+        if (getUsedPoints() > TOTAL_POINTS) {
+            val gap = getUsedPoints() - TOTAL_POINTS
+            inputStrength -= gap
+            strengthLiveData.value = inputStrength
+        }
+        updateTotalPoints()
     }
 
     fun onSpeedChanged(newValue: Int) {
-            inputSpeed = newValue
-            if (getUsedPoints() > TOTAL_POINTS) {
-                val gap = getUsedPoints() - TOTAL_POINTS
-                inputSpeed -= gap
-                _speedLiveData.value = inputSpeed
-            }
-            updateTotalPoints()
+        inputSpeed = newValue
+        if (getUsedPoints() > TOTAL_POINTS) {
+            val gap = getUsedPoints() - TOTAL_POINTS
+            inputSpeed -= gap
+            _speedLiveData.value = inputSpeed
+        }
+        updateTotalPoints()
     }
 
     fun onCapacityChanged(newValue: Int) {
-            inputCapacity = newValue
-            if (getUsedPoints() > TOTAL_POINTS) {
-                val gap = getUsedPoints() - TOTAL_POINTS
-                inputCapacity -= gap
-                _capacityLiveData.value = inputCapacity
-            }
-            updateTotalPoints()
+        inputCapacity = newValue
+        if (getUsedPoints() > TOTAL_POINTS) {
+            val gap = getUsedPoints() - TOTAL_POINTS
+            inputCapacity -= gap
+            _capacityLiveData.value = inputCapacity
+        }
+        updateTotalPoints()
     }
 
     private fun getUsedPoints() = inputStrength + inputSpeed + inputCapacity
@@ -71,19 +81,28 @@ class ShipCreatorViewModel : ViewModel() {
 
     fun onContinueClick() {
         when {
-            inputName.get().isNullOrEmpty() -> showError("İsim boş geçilemez!")
-            inputStrength == 0 || inputSpeed == 0 || inputCapacity == 0 -> showError("Yetenek boş olamaz!")
-            getUsedPoints() != 15 -> showError("Tüm puanları dağıtmalısın!")
+            inputName.get().isNullOrEmpty() -> showError(R.string.error_name_empty)
+            inputStrength == 0 || inputSpeed == 0 || inputCapacity == 0 -> showError(R.string.error_points)
+            getUsedPoints() != 15 -> showError(R.string.error_points)
             else -> saveAndContinue()
         }
     }
 
-    private fun showError(message: String) {
-        _showErrorLiveData.value = message
+    private fun showError(@StringRes resId: Int) {
+        _showErrorLiveData.value = resources.getString(resId)
     }
 
     private fun saveAndContinue() {
-// FIXME: 2/6/21 rooma kayit atilacak
+        inputName.get()?.let {
+            val shipData = ShipEntity(
+                name = it,
+                strength = inputStrength,
+                speed = inputSpeed,
+                capacity = inputCapacity
+            )
+            viewModelScope.launch {
+                shipRepo.saveShipData(shipData)
+            }
+        }
     }
-
 }
