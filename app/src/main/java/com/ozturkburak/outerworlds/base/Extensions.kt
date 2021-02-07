@@ -35,14 +35,9 @@ fun <T> LifecycleOwner.observeLiveData(liveData: LiveData<T>, observer: Observer
 
 fun Double?.orZero() = this ?: 0.0
 
-fun StationEntity.calculateDistance(target: StationEntity) = getDistance(this, target)
-
-private fun getDistance(
-    currentStation: StationEntity,
-    targetStation: StationEntity,
-) = sqrt(
-    (currentStation.coordinateX.orZero() - targetStation.coordinateX.orZero()).pow(2) +
-            (currentStation.coordinateY.orZero() - targetStation.coordinateY.orZero()).pow(2)
+fun StationEntity.calculateDistance(targetStation: StationEntity) =  sqrt(
+    (coordinateX.orZero() - targetStation.coordinateX.orZero()).pow(2) +
+            (coordinateY.orZero() - targetStation.coordinateY.orZero()).pow(2)
 )
 
 

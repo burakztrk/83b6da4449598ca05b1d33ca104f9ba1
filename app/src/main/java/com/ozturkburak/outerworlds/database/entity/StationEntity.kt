@@ -19,8 +19,13 @@ data class StationEntity(
 
     @ColumnInfo
     val capacity: Int?,
+
     @ColumnInfo
-    val stock: Int?,
+    var stock: Int?,
+
     @ColumnInfo
-    val need: Int?
+    var need: Int?,
+
+    @ColumnInfo(name = "current_station")
+    var currentStation: Boolean = false
 )

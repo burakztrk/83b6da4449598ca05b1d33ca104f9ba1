@@ -71,7 +71,7 @@ class StationListActivity : AppCompatActivity() {
     }
 
     private fun observeViewModel() {
-        observeLiveData(viewModel.getStationList()) {
+        observeLiveData(viewModel.adapterLiveData) {
             when (it) {
                 is Resource.Loading -> showLoading(true)
                 is Resource.Error -> {

@@ -13,7 +13,6 @@ import com.ozturkburak.outerworlds.base.Constants.Companion.STRENGTH_FACTOR
 import com.ozturkburak.outerworlds.base.ResourcesProvider
 import com.ozturkburak.outerworlds.database.entity.ShipEntity
 import com.ozturkburak.outerworlds.repo.ShipRepository
-import com.ozturkburak.outerworlds.repo.ShipRepositoryImpl
 import kotlinx.coroutines.launch
 
 class ShipCreatorViewModel(
@@ -48,6 +47,7 @@ class ShipCreatorViewModel(
 
     init {
         updateTotalPoints()
+        todoSaveAndContinue() // FIXME: 2/8/21 kaldirialcak
     }
 
     fun onStrengthChanged(newValue: Int) {
@@ -105,13 +105,27 @@ class ShipCreatorViewModel(
                 name = it,
                 strength = inputStrength * STRENGTH_FACTOR,
                 speed = inputSpeed * SPEED_FACTOR,
-                capacity = inputCapacity * CAPACITY_FACTOR,
-                stock = inputCapacity * CAPACITY_FACTOR,
+                capacity = inputCapacity * CAPACITY_FACTOR
             )
             viewModelScope.launch {
                 shipRepo.saveShipData(shipData)
                 _startStationListLiveData.postValue(Unit)
             }
         }
+    }
+
+
+    private fun todoSaveAndContinue() {
+        val shipData = ShipEntity(
+            name = "XSDK 345",
+            strength = 5 * STRENGTH_FACTOR,
+            speed = 5 * SPEED_FACTOR,
+            capacity = 5 * CAPACITY_FACTOR
+        )
+        viewModelScope.launch {
+            shipRepo.saveShipData(shipData)
+            _startStationListLiveData.postValue(Unit)
+        }
+
     }
 }

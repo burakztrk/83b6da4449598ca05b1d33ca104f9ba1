@@ -9,9 +9,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.ozturkburak.outerworlds.R
-import com.ozturkburak.outerworlds.base.Task
 import com.ozturkburak.outerworlds.base.observeLiveData
-import com.ozturkburak.outerworlds.base.onScrollStartListener
 import com.ozturkburak.outerworlds.databinding.StationFragmentBinding
 import com.ozturkburak.outerworlds.features.stationlist.StationListViewModel
 import com.ozturkburak.outerworlds.features.stationlist.station.list.AdapterClickHandler
@@ -51,7 +49,7 @@ class StationFragment : Fragment(), AdapterClickHandler {
     }
 
     private fun observeViewModel() {
-        observeLiveData(viewModel.getStationList()) {
+        observeLiveData(viewModel.adapterLiveData) {
             if (it is Resource.Success) {
                 initStationsPicker(it.data)
                 initSearchView(it.data)
@@ -63,14 +61,16 @@ class StationFragment : Fragment(), AdapterClickHandler {
         binding.discreteScroll.apply {
             adapter = SliderAdapter(list, this@StationFragment)
 
+            list.indexOfFirst { it.data.currentStation }?.let {
+                scrollToPosition(it)
+            }
+
+
             setItemTransformer(
                 ScaleTransformer.Builder()
                     .setMinScale(0.94f)
                     .build()
             )
-//            onScrollStartListener(Task {
-//                binding.autoCompleteSearch.setText("")
-//            })
         }
     }
 
@@ -92,7 +92,7 @@ class StationFragment : Fragment(), AdapterClickHandler {
 
     override fun onClick(type: ClickType, data: StationItemData) {
         when (type) {
-            ClickType.BUTTON -> viewModel.onStationTravelClick(data)
+            ClickType.BUTTON -> viewModel.onStationButtonClick(data)
             ClickType.FAV -> viewModel.onStationFavoriteClick(data)
         }
     }
