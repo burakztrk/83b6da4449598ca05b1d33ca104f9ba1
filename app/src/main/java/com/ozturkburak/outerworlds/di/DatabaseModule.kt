@@ -15,6 +15,9 @@ val databaseModule = module {
 
     fun provideShipDao(database: GameDatabase) = database.shipDao()
 
+    fun provideStationDao(database: GameDatabase) = database.stationDao()
+
     single { provideDatabase(get()) }
     single { provideShipDao(database = get()) }
+    single { provideStationDao(database = get()) }
 }

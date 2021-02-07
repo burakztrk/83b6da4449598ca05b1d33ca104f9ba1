@@ -2,6 +2,7 @@ package com.ozturkburak.outerworlds.features.shipcreator
 
 import android.content.Intent
 import android.os.Bundle
+import android.text.Editable
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.snackbar.Snackbar
 import com.ozturkburak.outerworlds.base.observeLiveData
@@ -27,7 +28,6 @@ class ShipCreatorActivity : AppCompatActivity() {
 
         initUI()
         observeViewModel()
-        startStationList() // FIXME: 2/7/21 kaldirilacak test
     }
 
     private fun initUI() {

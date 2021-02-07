@@ -16,5 +16,7 @@ data class ShipEntity(
     @ColumnInfo(name = "speed")
     val speed: Int,
     @ColumnInfo(name = "capacity")
-    val capacity: Int
+    val capacity: Int,
+    @ColumnInfo(name = "stock")
+    val stock: Int
 )

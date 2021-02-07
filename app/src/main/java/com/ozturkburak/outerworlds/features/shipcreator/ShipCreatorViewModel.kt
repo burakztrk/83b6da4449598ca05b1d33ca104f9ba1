@@ -7,6 +7,9 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ozturkburak.outerworlds.R
+import com.ozturkburak.outerworlds.base.Constants.Companion.CAPACITY_FACTOR
+import com.ozturkburak.outerworlds.base.Constants.Companion.SPEED_FACTOR
+import com.ozturkburak.outerworlds.base.Constants.Companion.STRENGTH_FACTOR
 import com.ozturkburak.outerworlds.base.ResourcesProvider
 import com.ozturkburak.outerworlds.database.entity.ShipEntity
 import com.ozturkburak.outerworlds.repo.ShipRepository
@@ -100,9 +103,10 @@ class ShipCreatorViewModel(
         inputName.get()?.let {
             val shipData = ShipEntity(
                 name = it,
-                strength = inputStrength,
-                speed = inputSpeed,
-                capacity = inputCapacity
+                strength = inputStrength * STRENGTH_FACTOR,
+                speed = inputSpeed * SPEED_FACTOR,
+                capacity = inputCapacity * CAPACITY_FACTOR,
+                stock = inputCapacity * CAPACITY_FACTOR,
             )
             viewModelScope.launch {
                 shipRepo.saveShipData(shipData)

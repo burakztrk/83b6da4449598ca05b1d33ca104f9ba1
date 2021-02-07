@@ -14,7 +14,10 @@
     <string name="tab_favorite">Favoriler</string>
     <string name="ugs">UGS:</string>
     <string name="eus">EUS:</string>
-    <string name="dss">DS:</string>
+    <string name="ds">DS:</string>
     <string name="search">Arama Yap</string>
     <string name="travel">GİT</string>
+    <string name="ugs_long">Uzay giysisi sayısı</string>
+    <string name="eus_long">Evrensel uzay süresi</string>
+    <string name="ds_long">Dayanıklılık Süresi</string>
 </resources>

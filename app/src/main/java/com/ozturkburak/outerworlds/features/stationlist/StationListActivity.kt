@@ -6,7 +6,6 @@ import androidx.fragment.app.Fragment
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.customview.customView
 import com.google.android.material.snackbar.Snackbar
-import com.orhanobut.logger.Logger
 import com.ozturkburak.outerworlds.R
 import com.ozturkburak.outerworlds.base.observeLiveData
 import com.ozturkburak.outerworlds.databinding.ActivityStationListBinding
@@ -53,7 +52,6 @@ class StationListActivity : AppCompatActivity() {
         initBottomNav()
     }
 
-
     private fun initBottomNav() {
         binding.bottomNavigationView.setOnNavigationItemSelectedListener {
             val newFragment = when (it.itemId) {
@@ -72,37 +70,32 @@ class StationListActivity : AppCompatActivity() {
         }
     }
 
-        private fun observeViewModel() {
-            observeLiveData(viewModel.getStationList()) {
-                when (it) {
-                    is Resource.Loading -> showLoading(true)
-                    is Resource.Error -> {
-                        showLoading(false)
-                        showError(it.message)
-                    }
-                    is Resource.Success -> {
-                        showLoading(false)
-                        it.data.forEach { station ->
-                            Logger.d(station)
-                        }
-                    }
+    private fun observeViewModel() {
+        observeLiveData(viewModel.getStationList()) {
+            when (it) {
+                is Resource.Loading -> showLoading(true)
+                is Resource.Error -> {
+                    showLoading(false)
+                    showError(it.message)
                 }
-            }
-        }
-
-        private fun showLoading(visibility: Boolean) {
-            if (visibility) {
-                loadingDialog.show {
-                    customView(R.layout.dialog_loading)
-                }
-            } else {
-                loadingDialog.dismiss()
-            }
-        }
-
-        private fun showError(message: String?) {
-            message?.let {
-                Snackbar.make(binding.root, it, Snackbar.LENGTH_SHORT).show()
+                is Resource.Success -> showLoading(false)
             }
         }
     }
+
+    private fun showLoading(visibility: Boolean) {
+        if (visibility) {
+            loadingDialog.show {
+                customView(R.layout.dialog_loading)
+            }
+        } else {
+            loadingDialog.dismiss()
+        }
+    }
+
+    private fun showError(message: String?) {
+        message?.let {
+            Snackbar.make(binding.root, it, Snackbar.LENGTH_SHORT).show()
+        }
+    }
+}

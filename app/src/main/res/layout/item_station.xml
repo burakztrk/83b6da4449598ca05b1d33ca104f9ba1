@@ -24,27 +24,31 @@
             android:background="@drawable/item_station_bg">
 
             <TextView
-                android:id="@+id/textView"
+                android:id="@+id/stock"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="2000/1000"
+                android:text="@{viewData.stockText}"
+                tools:text="1000/2000"
                 android:textAppearance="@style/TextAppearance.AppCompat.Small"
                 android:textColor="@color/white"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
+                android:id="@+id/eus"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:text="242 EUS"
+                android:text="@{viewData.eusText}"
+                tools:text="234EUS"
                 android:textAppearance="@style/TextAppearance.AppCompat.Small"
                 android:textColor="@color/white"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView" />
+                app:layout_constraintTop_toBottomOf="@+id/stock" />
 
 
             <ImageView
+                android:id="@+id/favorite"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_fav"
@@ -54,7 +58,8 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="YZJCR -246"
+                tools:text="YZJCR -246"
+                android:text="@{viewData.name}"
                 android:textColor="@color/white"
                 android:textAppearance="@style/TextAppearance.AppCompat.Headline"
                 app:layout_constraintBottom_toBottomOf="parent"

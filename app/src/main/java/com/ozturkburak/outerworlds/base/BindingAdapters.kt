@@ -1,4 +1,9 @@
 package com.ozturkburak.outerworlds.base
 
+import android.widget.TextView
+import androidx.databinding.BindingAdapter
 
-//class Task<T>(val executable: (value: T) -> Unit)
+@BindingAdapter("android:text")
+fun TextView.setIntText(value:Int){
+    this.text = value.toString()
+}

@@ -35,7 +35,6 @@ val networkModule = module {
     }
 }
 
-
 val apiModule = module {
     fun provideStationApi(retrofit: Retrofit): StationApi {
         return retrofit.create(StationApi::class.java)

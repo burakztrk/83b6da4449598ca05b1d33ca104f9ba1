@@ -5,7 +5,6 @@ import com.ozturkburak.outerworlds.features.shipcreator.ShipCreatorViewModel
 import com.ozturkburak.outerworlds.features.splash.SplashActivityViewModel
 import com.ozturkburak.outerworlds.features.stationlist.StationListViewModel
 import com.ozturkburak.outerworlds.features.stationlist.favorites.FavoriteViewModel
-import com.ozturkburak.outerworlds.features.stationlist.station.StationViewModel
 import com.ozturkburak.outerworlds.repo.ShipRepository
 import com.ozturkburak.outerworlds.repo.ShipRepositoryImpl
 import com.ozturkburak.outerworlds.repo.StationRepository
@@ -21,11 +20,7 @@ val viewModelModule = module {
         ShipCreatorViewModel(resources = get(), shipRepo = get())
     }
     viewModel {
-        StationListViewModel(stationRepository = get())
-    }
-
-    viewModel {
-        StationViewModel()
+        StationListViewModel(stationRepository = get(), shipRepository = get())
     }
 
     viewModel {
@@ -47,6 +42,6 @@ val repositoryModule = module {
     }
 
     single<StationRepository> {
-        StationRepositoryImpl(stationApi = get())
+        StationRepositoryImpl(stationApi = get() , stationDao = get())
     }
 }
