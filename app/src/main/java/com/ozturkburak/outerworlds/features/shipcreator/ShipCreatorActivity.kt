@@ -27,6 +27,7 @@ class ShipCreatorActivity : AppCompatActivity() {
 
         initUI()
         observeViewModel()
+        startStationList() // FIXME: 2/7/21 kaldirilacak test
     }
 
     private fun initUI() {

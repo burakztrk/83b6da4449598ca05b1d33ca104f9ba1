@@ -12,4 +12,9 @@
     <string name="error_ability">Yetenek boş olamaz!</string>
     <string name="tab_station">Istasyon</string>
     <string name="tab_favorite">Favoriler</string>
+    <string name="ugs">UGS:</string>
+    <string name="eus">EUS:</string>
+    <string name="dss">DS:</string>
+    <string name="search">Arama Yap</string>
+    <string name="travel">GİT</string>
 </resources>

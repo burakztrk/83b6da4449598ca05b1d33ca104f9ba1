@@ -94,5 +94,9 @@ dependencies {
     implementation 'com.afollestad.material-dialogs:core:3.3.0'
     implementation 'com.afollestad.material-dialogs:bottomsheets:3.3.0'
 
+    // Carousel
+    implementation 'com.yarolegovich:discrete-scrollview:1.5.1'
+
+
 
 }
