@@ -36,5 +36,5 @@ class AdapterDataMapper(
         currentStation: StationEntity,
         targetStation: StationEntity,
         shipInfo: ShipEntity
-    ) = currentStation.calculateDistance(targetStation) / shipInfo.speed
+    ) = currentStation.calculateDistance(targetStation) * 100 / shipInfo.speed
 }
