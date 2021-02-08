@@ -1,6 +1,5 @@
 package com.ozturkburak.outerworlds.database.dao
 
-import androidx.lifecycle.LiveData
 import androidx.room.*
 import com.ozturkburak.outerworlds.database.DBConstants
 import com.ozturkburak.outerworlds.database.entity.StationEntity
@@ -24,5 +23,8 @@ interface StationDao {
 
     @Query("SELECT * FROM ${DBConstants.DB_TABLE_STATION} WHERE current_station=1")
     suspend fun getCurrentStation(): StationEntity?
+
+    @Query("SELECT * FROM ${DBConstants.DB_TABLE_STATION} WHERE is_favorite=1")
+    fun getFavoriteList(): List<StationEntity>?
 
 }

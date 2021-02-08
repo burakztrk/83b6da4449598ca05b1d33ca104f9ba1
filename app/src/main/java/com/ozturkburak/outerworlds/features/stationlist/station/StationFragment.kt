@@ -12,10 +12,8 @@ import com.ozturkburak.outerworlds.R
 import com.ozturkburak.outerworlds.base.observeLiveData
 import com.ozturkburak.outerworlds.databinding.StationFragmentBinding
 import com.ozturkburak.outerworlds.features.stationlist.StationListViewModel
-import com.ozturkburak.outerworlds.features.stationlist.station.list.AdapterClickHandler
-import com.ozturkburak.outerworlds.features.stationlist.station.list.ClickType
-import com.ozturkburak.outerworlds.features.stationlist.station.list.SliderAdapter
-import com.ozturkburak.outerworlds.features.stationlist.station.list.StationItemData
+import com.ozturkburak.outerworlds.features.stationlist.station.list.*
+import com.ozturkburak.outerworlds.features.stationlist.station.list.StationAdapter.Type
 import com.ozturkburak.outerworlds.repo.Resource
 import com.yarolegovich.discretescrollview.transform.ScaleTransformer
 
@@ -49,22 +47,23 @@ class StationFragment : Fragment(), AdapterClickHandler {
     }
 
     private fun observeViewModel() {
-        observeLiveData(viewModel.adapterLiveData) {
+        observeLiveData(viewModel.sliderAdapterLiveData) {
             if (it is Resource.Success) {
-                initStationsPicker(it.data)
+                initStationsPicker(it.data, it.selected)
                 initSearchView(it.data)
             }
         }
     }
 
-    private fun initStationsPicker(list: List<StationItemData>) {
+    private fun initStationsPicker(list: List<StationItemData>, selectedStation: StationItemData?) {
         binding.discreteScroll.apply {
-            adapter = SliderAdapter(list, this@StationFragment)
+            adapter = StationAdapter(Type.SLIDER, list, this@StationFragment)
 
-            list.indexOfFirst { it.data.currentStation }?.let {
+            selectedStation?.let { selected ->
+                list.indexOfFirst { it.name == selected.name  }
+            }?.let {
                 scrollToPosition(it)
             }
-
 
             setItemTransformer(
                 ScaleTransformer.Builder()

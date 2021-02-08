@@ -15,6 +15,8 @@ interface StationRepository {
     suspend fun updateCurrentStation(newStation: StationEntity)
 
     suspend fun updateStation(newStation: StationEntity)
+
+    suspend fun getFavoriteStationList(): List<StationEntity>?
 }
 
 class StationRepositoryImpl(
@@ -45,6 +47,9 @@ class StationRepositoryImpl(
     }
 
     override suspend fun updateStation(newStation: StationEntity) = stationDao.update(newStation)
+
+    override suspend fun getFavoriteStationList()= stationDao.getFavoriteList()
+
 
     private fun defaultStation() = StationEntity(
         STATION_WORLD_ID,

@@ -27,5 +27,8 @@ data class StationEntity(
     var need: Int?,
 
     @ColumnInfo(name = "current_station")
-    var currentStation: Boolean = false
+    var currentStation: Boolean = false,
+
+    @ColumnInfo(name = "is_favorite")
+    var isFavorite: Boolean = false
 )

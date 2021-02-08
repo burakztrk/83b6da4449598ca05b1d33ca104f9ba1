@@ -20,4 +20,5 @@
     <string name="ugs_long">Uzay giysisi sayısı</string>
     <string name="eus_long">Evrensel uzay süresi</string>
     <string name="ds_long">Dayanıklılık Süresi</string>
+    <string name="favorites">Favoriler</string>
 </resources>

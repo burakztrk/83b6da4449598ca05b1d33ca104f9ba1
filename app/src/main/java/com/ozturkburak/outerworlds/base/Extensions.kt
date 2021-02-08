@@ -6,7 +6,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import com.airbnb.lottie.LottieAnimationView
 import com.ozturkburak.outerworlds.database.entity.StationEntity
-import com.ozturkburak.outerworlds.features.stationlist.station.list.SliderAdapter
+import com.ozturkburak.outerworlds.features.stationlist.station.list.StationAdapter
 import com.yarolegovich.discretescrollview.DiscreteScrollView
 import kotlin.math.pow
 import kotlin.math.sqrt
@@ -39,31 +39,3 @@ fun StationEntity.calculateDistance(targetStation: StationEntity) =  sqrt(
     (coordinateX.orZero() - targetStation.coordinateX.orZero()).pow(2) +
             (coordinateY.orZero() - targetStation.coordinateY.orZero()).pow(2)
 )
-
-
-fun DiscreteScrollView.onScrollStartListener(listener: Task<Unit>) {
-    addScrollStateChangeListener(object :
-        DiscreteScrollView.ScrollStateChangeListener<SliderAdapter.ViewHolder> {
-        override fun onScrollStart(
-            currentItemHolder: SliderAdapter.ViewHolder,
-            adapterPosition: Int
-        ) {
-            listener.executable.invoke(Unit)
-        }
-
-        override fun onScrollEnd(
-            currentItemHolder: SliderAdapter.ViewHolder,
-            adapterPosition: Int
-        ) {
-        }
-
-        override fun onScroll(
-            scrollPosition: Float,
-            currentPosition: Int,
-            newPosition: Int,
-            currentHolder: SliderAdapter.ViewHolder?,
-            newCurrent: SliderAdapter.ViewHolder?
-        ) {
-        }
-    })
-}

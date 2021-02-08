@@ -1,7 +1,6 @@
 package com.ozturkburak.outerworlds.features.stationlist
 
 import androidx.databinding.ObservableField
-import androidx.databinding.ObservableInt
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -26,32 +25,37 @@ class StationListViewModel(
     val currentStationObservable = ObservableField<StationEntity>()
     val timerObservable = ObservableField<String>()
 
-    private val _adapterLiveData = MutableLiveData<Resource>()
-    val adapterLiveData: LiveData<Resource> get() = _adapterLiveData
+    private val _sliderAdapterLiveData = MutableLiveData<Resource>()
+    val sliderAdapterLiveData: LiveData<Resource> get() = _sliderAdapterLiveData
+
+    private val _favoriteAdapterLiveData = MutableLiveData<Resource>()
+    val favoriteAdapterLiveData: LiveData<Resource> get() = _favoriteAdapterLiveData
 
     private var timerIsActive = true
+    private var counter = 0
 
     init {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             updateUIShipInfo()
+            updateFavoriteStations()
         }
         getStations()
     }
 
     private fun getStations() {
         viewModelScope.launch {
-            _adapterLiveData.value = Resource.Loading
+            _sliderAdapterLiveData.value = Resource.Loading
             runCatching {
                 stationRepository.fetchStationList()?.takeIf { it.isNotEmpty() }?.let { list ->
                     currentStationObservable.set(stationRepository.getCurrentStation())
-                    _adapterLiveData.value = Resource.Success(getAdapterData(list))
+                    _sliderAdapterLiveData.value = Resource.Success(getAdapterData(list))
                     initTimer()
                 } ?: run {
-                    _adapterLiveData.value = Resource.Error("Network Hatası - EMPTY LIST")
+                    _sliderAdapterLiveData.value = Resource.Error("Network Hatası - EMPTY LIST")
                 }
             }.onFailure {
                 it.printStackTrace()
-                _adapterLiveData.value = Resource.Error(it.message)
+                _sliderAdapterLiveData.value = Resource.Error(it.message)
             }
         }
     }
@@ -70,7 +74,7 @@ class StationListViewModel(
             updateUIShipInfo()
 
             updateCurrentLocation(stationItem.data)
-            updateAdapterData()
+            updateAdapterData(stationItem)
         }
     }
 
@@ -94,9 +98,9 @@ class StationListViewModel(
         shipRepository.saveShipData(newShipData)
     }
 
-    private suspend fun updateAdapterData() {
+    private suspend fun updateAdapterData(selected: StationItemData? = null) {
         stationRepository.getCachedStationList()?.let {
-            _adapterLiveData.postValue(Resource.Success(getAdapterData(it)))
+            _sliderAdapterLiveData.postValue(Resource.Success(getAdapterData(it), selected))
         }
     }
 
@@ -109,17 +113,26 @@ class StationListViewModel(
         shipInfoObservable.set(shipRepository.getShipData())
     }
 
+    fun onStationFavoriteClick(stationItem: StationItemData) {
+        viewModelScope.launch(Dispatchers.IO) {
+            stationRepository.updateStation(stationItem.data.apply {
+                isFavorite = isFavorite.not()
+            })
+            updateAdapterData(stationItem)
+            updateFavoriteStations()
+        }
 
-    fun onStationFavoriteClick(data: StationItemData) {
-        TODO("Not yet implemented")
     }
 
-
-    private var counter = 0
+    private suspend fun updateFavoriteStations() {
+        stationRepository.getFavoriteStationList()?.let {
+            _favoriteAdapterLiveData.postValue(Resource.Success(getAdapterData(it)))
+        }
+    }
 
     private fun initTimer() {
         viewModelScope.launch {
-            while (timerIsActive ) {
+            while (timerIsActive) {
                 delay(1000L)
                 timerObservable.set("${counter++}s")
             }
