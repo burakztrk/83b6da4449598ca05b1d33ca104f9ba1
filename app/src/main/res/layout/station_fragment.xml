@@ -25,8 +25,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:text="@string/ugs"
-            android:tooltipText="Uzay giysisi sayısı"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+            android:tooltipText="Uzay giysisi sayısı"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -39,7 +39,7 @@
             android:text="@{viewModel.shipInfoObservable.capacity}"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
             android:textColor="@color/black"
-            app:layout_constraintStart_toEndOf="@+id/label_ugs"
+            app:layout_constraintStart_toEndOf="@id/label_ugs"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="5000" />
 
@@ -50,11 +50,10 @@
             android:layout_marginTop="16dp"
             android:layout_marginEnd="4dp"
             android:text="@string/eus"
-            android:tooltipText="@string/eus_long"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-            app:layout_constraintEnd_toStartOf="@+id/guideline2"
-            app:layout_constraintTop_toTopOf="parent"
-            />
+            android:tooltipText="@string/eus_long"
+            app:layout_constraintEnd_toStartOf="@id/guideline2"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/eus_points"
@@ -65,7 +64,7 @@
             android:text="@{viewModel.shipInfoObservable.speed}"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
             android:textColor="@color/black"
-            app:layout_constraintStart_toStartOf="@+id/guideline2"
+            app:layout_constraintStart_toStartOf="@id/guideline2"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="500" />
 
@@ -76,9 +75,9 @@
             android:layout_marginTop="16dp"
             android:layout_marginEnd="8dp"
             android:text="@string/ds"
-            android:tooltipText="@string/ds_long"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-            app:layout_constraintEnd_toStartOf="@+id/ds_points"
+            android:tooltipText="@string/ds_long"
+            app:layout_constraintEnd_toStartOf="@id/ds_points"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
@@ -99,7 +98,7 @@
             android:layout_marginTop="16dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/ugs_points" />
+            app:layout_constraintTop_toBottomOf="@id/ugs_points" />
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guideline2"
@@ -117,43 +116,48 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
+            android:ellipsize="end"
             android:text="@{viewModel.shipInfoObservable.name}"
             android:textAppearance="@style/TextAppearance.AppCompat.Large"
             android:textColor="@color/black"
-            android:ellipsize="end"
-            app:layout_constraintBottom_toBottomOf="@+id/v_100"
-            app:layout_constraintEnd_toStartOf="@+id/seconds"
+            app:layout_constraintBottom_toBottomOf="@id/timer"
+            app:layout_constraintEnd_toStartOf="@id/health"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/divider_top"
+            app:layout_constraintTop_toBottomOf="@id/divider_top"
             tools:text="WhartonX" />
 
         <TextView
-            android:id="@+id/v_100"
-            android:layout_width="70dp"
+            android:id="@+id/timer"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="18dp"
             android:background="@drawable/input_bg"
             android:gravity="center"
-            tools:text="49s"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
             android:text="@{viewModel.timerObservable}"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
             android:textColor="@color/white"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/divider_top" />
+            app:layout_constraintTop_toBottomOf="@id/divider_top"
+            tools:text="49s" />
 
         <TextView
-            android:id="@+id/seconds"
-            android:layout_width="70dp"
+            android:id="@+id/health"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="18dp"
             android:background="@drawable/input_bg"
             android:gravity="center"
-            android:text="100"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:text="@{viewModel.shipInfoObservable.health}"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
             android:textColor="@color/white"
-            app:layout_constraintEnd_toStartOf="@+id/guideline2"
-            app:layout_constraintStart_toStartOf="@+id/guideline2"
-            app:layout_constraintTop_toBottomOf="@+id/divider_top" />
+            app:layout_constraintEnd_toStartOf="@id/guideline2"
+            app:layout_constraintStart_toStartOf="@id/guideline2"
+            app:layout_constraintTop_toBottomOf="@id/divider_top"
+            tools:text="100" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/search_layout"
@@ -163,7 +167,7 @@
             android:layout_marginTop="16dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/seconds"
+            app:layout_constraintTop_toBottomOf="@id/health"
             app:startIconDrawable="@drawable/ic_search"
             app:startIconTint="@android:color/darker_gray">
 
@@ -172,8 +176,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/search"
-                android:maxLength="50"
                 android:inputType="none"
+                android:maxLength="50"
                 android:singleLine="true" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -184,7 +188,7 @@
             android:layout_marginTop="16dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/search_layout"
+            app:layout_constraintTop_toBottomOf="@id/search_layout"
             tools:listitem="@layout/item_station" />
 
         <TextView
@@ -198,7 +202,6 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             tools:text="Tglsxvp" />
-
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

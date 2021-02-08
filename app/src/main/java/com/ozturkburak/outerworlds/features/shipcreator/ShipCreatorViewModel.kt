@@ -47,7 +47,6 @@ class ShipCreatorViewModel(
 
     init {
         updateTotalPoints()
-        todoSaveAndContinue() // FIXME: 2/8/21 kaldirialcak
     }
 
     fun onStrengthChanged(newValue: Int) {
@@ -112,20 +111,5 @@ class ShipCreatorViewModel(
                 _startStationListLiveData.postValue(Unit)
             }
         }
-    }
-
-
-    private fun todoSaveAndContinue() {
-        val shipData = ShipEntity(
-            name = "XSDK 345",
-            strength = 5 * STRENGTH_FACTOR,
-            speed = 5 * SPEED_FACTOR,
-            capacity = 5 * CAPACITY_FACTOR
-        )
-        viewModelScope.launch {
-            shipRepo.saveShipData(shipData)
-            _startStationListLiveData.postValue(Unit)
-        }
-
     }
 }

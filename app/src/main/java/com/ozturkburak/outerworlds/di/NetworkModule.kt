@@ -13,8 +13,8 @@ import java.util.concurrent.TimeUnit
 val networkModule = module {
 
     fun provideHttpClient() = OkHttpClient.Builder().apply {
-        connectTimeout(Constants.REQUEST_TIMEOUT, TimeUnit.SECONDS)
-        readTimeout(Constants.REQUEST_TIMEOUT, TimeUnit.SECONDS)
+        connectTimeout(Constants.REQUEST_TIMEOUT_SECOND, TimeUnit.SECONDS)
+        readTimeout(Constants.REQUEST_TIMEOUT_SECOND, TimeUnit.SECONDS)
         if (BuildConfig.DEBUG) {
             addInterceptor(HttpLoggingInterceptor().apply {
                 level = HttpLoggingInterceptor.Level.BODY

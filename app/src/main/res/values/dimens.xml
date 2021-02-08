@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="dialog_result_lottie_height">200dp</dimen>
+    <dimen name="button_default_height">56dp</dimen>
+    <dimen name="navbar_height">62dp</dimen>
+    <dimen name="item_station_card_width">290dp</dimen>
+    <dimen name="item_station_card_height">200dp</dimen>
+    <dimen name="item_station_success_height">100dp</dimen>
+</resources>

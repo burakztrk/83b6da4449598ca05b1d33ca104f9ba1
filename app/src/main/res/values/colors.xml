@@ -8,4 +8,6 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="app_color">#69C5CC</color>>
+    <color name="success_green">#00c853</color>
+    <color name="darker_gray">#b0bec5</color>
 </resources>

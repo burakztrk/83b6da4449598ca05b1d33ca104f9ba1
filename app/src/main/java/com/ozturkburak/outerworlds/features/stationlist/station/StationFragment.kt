@@ -9,6 +9,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.ozturkburak.outerworlds.R
+import com.ozturkburak.outerworlds.base.Task
 import com.ozturkburak.outerworlds.base.observeLiveData
 import com.ozturkburak.outerworlds.databinding.StationFragmentBinding
 import com.ozturkburak.outerworlds.features.stationlist.StationListViewModel
@@ -28,6 +29,8 @@ class StationFragment : Fragment(), AdapterClickHandler {
 
     private lateinit var binding: StationFragmentBinding
 
+    private lateinit var infoBottomSheet: InfoBottomSheet
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -39,30 +42,38 @@ class StationFragment : Fragment(), AdapterClickHandler {
         binding.viewModel = this@StationFragment.viewModel
     }.root
 
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        initUI()
         observeViewModel()
+    }
+
+    private fun initUI() {
+        infoBottomSheet = InfoBottomSheet(requireContext(), Task {
+            binding.discreteScroll.smoothScrollToPosition(0)
+            viewModel.startTimer()
+        })
     }
 
     private fun observeViewModel() {
         observeLiveData(viewModel.sliderAdapterLiveData) {
             if (it is Resource.Success) {
-                initStationsPicker(it.data, it.selected)
+                initStationsPicker(it.data, it.selectedPosition)
                 initSearchView(it.data)
             }
         }
+        observeLiveData(viewModel.finishGameLiveData) {
+            infoBottomSheet.show(it)
+        }
     }
 
-    private fun initStationsPicker(list: List<StationItemData>, selectedStation: StationItemData?) {
+    private fun initStationsPicker(list: List<StationItemData>, selectedStationPos: Int?) {
         binding.discreteScroll.apply {
             adapter = StationAdapter(Type.SLIDER, list, this@StationFragment)
 
-            selectedStation?.let { selected ->
-                list.indexOfFirst { it.name == selected.name  }
-            }?.let {
-                scrollToPosition(it)
+            selectedStationPos?.let {
+                scrollToPosition(selectedStationPos)
             }
 
             setItemTransformer(
@@ -95,5 +106,4 @@ class StationFragment : Fragment(), AdapterClickHandler {
             ClickType.FAV -> viewModel.onStationFavoriteClick(data)
         }
     }
-
 }

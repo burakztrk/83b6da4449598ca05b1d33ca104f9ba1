@@ -12,9 +12,11 @@ data class ShipEntity(
     @ColumnInfo(name = "name")
     val name: String,
     @ColumnInfo(name = "strength")
-    val strength: Int,
+    var strength: Int,
     @ColumnInfo(name = "speed")
     var speed: Int,
     @ColumnInfo(name = "capacity")
-    var capacity: Int
+    var capacity: Int,
+    @ColumnInfo(name = "health")
+    var health: Int = 100
 )

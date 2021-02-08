@@ -7,6 +7,6 @@ data class StationItemData(
     val eus: Double?,
     val eusText: String?,
     val name: String?,
-    val data: StationEntity,
-){
-}
+    val missionSuccess: Boolean = false,
+    val data: StationEntity
+)

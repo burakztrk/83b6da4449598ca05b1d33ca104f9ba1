@@ -18,11 +18,24 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/constraint"
-            android:layout_width="290dp"
-            android:layout_height="200dp"
+            android:layout_width="@dimen/item_station_card_width"
+            android:layout_height="@dimen/item_station_card_height"
             android:layout_gravity="center"
             android:padding="16dp"
             android:background="@drawable/item_station_bg">
+
+            <ImageView
+                android:id="@+id/success"
+                android:layout_width="@dimen/item_station_success_height"
+                android:layout_height="0dp"
+                android:src="@drawable/ic_check"
+                app:visibility="@{viewData.missionSuccess}"
+                app:layout_constraintBottom_toTopOf="@id/textView"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.0"
+                app:tint="@color/success_green" />
 
             <TextView
                 android:id="@+id/stock"
@@ -45,7 +58,7 @@
                 android:textAppearance="@style/TextAppearance.AppCompat.Small"
                 android:textColor="@color/white"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/stock" />
+                app:layout_constraintTop_toBottomOf="@id/stock" />
 
 
             <ImageView
@@ -57,16 +70,17 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
+                android:id="@+id/textView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                tools:text="YZJCR -246"
                 android:text="@{viewData.name}"
-                android:textColor="@color/white"
                 android:textAppearance="@style/TextAppearance.AppCompat.Headline"
+                android:textColor="@color/white"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="YZJCR -246" />
 
 
             <com.google.android.material.button.MaterialButton
@@ -79,10 +93,10 @@
                 android:text="@string/travel"
                 android:textColor="@color/white"
                 app:strokeColor="@color/white"
+                android:enabled="@{!viewData.missionSuccess}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintVertical_bias="1.0" />
+                app:layout_constraintStart_toStartOf="parent" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

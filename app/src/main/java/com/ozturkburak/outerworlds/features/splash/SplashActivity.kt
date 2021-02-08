@@ -6,7 +6,6 @@ import androidx.appcompat.app.AppCompatActivity
 import com.ozturkburak.outerworlds.base.onAnimationEnd
 import com.ozturkburak.outerworlds.databinding.ActivitySplashBinding
 import com.ozturkburak.outerworlds.features.shipcreator.ShipCreatorActivity
-import org.koin.android.viewmodel.ext.android.viewModel
 
 class SplashActivity : AppCompatActivity() {
 
@@ -17,14 +16,11 @@ class SplashActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivitySplashBinding
 
-    private val viewModel: SplashActivityViewModel by viewModel()
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivitySplashBinding.inflate(layoutInflater)
         setContentView(binding.root)
         initUI()
-        startShipCreatorActivity() // FIXME: 2/6/21 kaldirialcak
     }
 
     private fun initUI() {

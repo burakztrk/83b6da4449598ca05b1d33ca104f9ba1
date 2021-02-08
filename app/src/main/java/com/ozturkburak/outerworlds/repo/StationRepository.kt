@@ -2,6 +2,7 @@ package com.ozturkburak.outerworlds.repo
 
 import com.ozturkburak.outerworlds.api.StationApi
 import com.ozturkburak.outerworlds.base.Constants.Companion.STATION_WORLD_ID
+import com.ozturkburak.outerworlds.base.calculateDistance
 import com.ozturkburak.outerworlds.database.dao.StationDao
 import com.ozturkburak.outerworlds.database.entity.StationEntity
 
@@ -17,6 +18,12 @@ interface StationRepository {
     suspend fun updateStation(newStation: StationEntity)
 
     suspend fun getFavoriteStationList(): List<StationEntity>?
+
+    suspend fun targetStationsTotalEUS(): Int
+
+    suspend fun isStationsStockFull() : Boolean
+
+    fun getWorldStation() : StationEntity
 }
 
 class StationRepositoryImpl(
@@ -33,7 +40,7 @@ class StationRepositoryImpl(
     override suspend fun getCachedStationList(): List<StationEntity>? = stationDao.getList()
 
     override suspend fun getCurrentStation(): StationEntity =
-        stationDao.getCurrentStation() ?: defaultStation()
+        stationDao.getCurrentStation() ?: getWorldStation()
 
     override suspend fun updateCurrentStation(newStation: StationEntity) {
         stationDao.getCurrentStation()?.let {
@@ -48,10 +55,15 @@ class StationRepositoryImpl(
 
     override suspend fun updateStation(newStation: StationEntity) = stationDao.update(newStation)
 
-    override suspend fun getFavoriteStationList()= stationDao.getFavoriteList()
+    override suspend fun getFavoriteStationList() = stationDao.getFavoriteList()
 
+    override suspend fun targetStationsTotalEUS() =
+        getCachedStationList()?.filter { it.stock != it.capacity }
+            ?.sumByDouble { it.calculateDistance(getCurrentStation()) }?.toInt() ?: 0
 
-    private fun defaultStation() = StationEntity(
+    override suspend fun isStationsStockFull()= getCachedStationList()?.find { it.stock != it.capacity } == null
+
+    override fun getWorldStation() : StationEntity = StationEntity(
         STATION_WORLD_ID,
         coordinateX = .0,
         coordinateY = .0,

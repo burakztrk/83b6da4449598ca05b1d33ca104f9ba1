@@ -21,4 +21,10 @@
     <string name="eus_long">Evrensel uzay süresi</string>
     <string name="ds_long">Dayanıklılık Süresi</string>
     <string name="favorites">Favoriler</string>
+    <string name="travel_to_world">Dünyaya Dön</string>
+    <string name="success_stations_stock">Tüm istasyonların stok ihtiyacını karşıladın</string>
+    <string name="fail_eus">Uzay giysilerini dağıtmak için EUS yeterli değil</string>
+    <string name="low_health">Uzay gemisi fazla hasar aldı</string>
+    <string name="low_ship_eus">Uzay gemisinde tüm istasyonlara yetecek kadar uzay giysisi kalmadı.</string>
+    <string name="error_list_empty">"Network Error - EMPTY LIST"</string>
 </resources>

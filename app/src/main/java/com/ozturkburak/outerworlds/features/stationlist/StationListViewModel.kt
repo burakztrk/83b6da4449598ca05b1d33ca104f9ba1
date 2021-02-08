@@ -5,25 +5,31 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.ozturkburak.outerworlds.R
+import com.ozturkburak.outerworlds.base.ResourcesProvider
+import com.ozturkburak.outerworlds.base.Task
 import com.ozturkburak.outerworlds.database.entity.ShipEntity
 import com.ozturkburak.outerworlds.database.entity.StationEntity
-import com.ozturkburak.outerworlds.features.stationlist.station.list.AdapterDataMapper
+import com.ozturkburak.outerworlds.features.stationlist.station.GameManager
+import com.ozturkburak.outerworlds.features.stationlist.station.Timer
 import com.ozturkburak.outerworlds.features.stationlist.station.list.StationItemData
 import com.ozturkburak.outerworlds.repo.Resource
 import com.ozturkburak.outerworlds.repo.ShipRepository
 import com.ozturkburak.outerworlds.repo.StationRepository
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class StationListViewModel(
     private val stationRepository: StationRepository,
-    private val shipRepository: ShipRepository
+    private val shipRepository: ShipRepository,
+    private val resourcesProvider: ResourcesProvider,
+    private val gameManager: GameManager
 ) : ViewModel() {
 
     val shipInfoObservable = ObservableField<ShipEntity>()
     val currentStationObservable = ObservableField<StationEntity>()
     val timerObservable = ObservableField<String>()
+    private val timer: Timer = Timer(this)
 
     private val _sliderAdapterLiveData = MutableLiveData<Resource>()
     val sliderAdapterLiveData: LiveData<Resource> get() = _sliderAdapterLiveData
@@ -31,13 +37,14 @@ class StationListViewModel(
     private val _favoriteAdapterLiveData = MutableLiveData<Resource>()
     val favoriteAdapterLiveData: LiveData<Resource> get() = _favoriteAdapterLiveData
 
-    private var timerIsActive = true
-    private var counter = 0
+    private val _finishGameLiveData = MutableLiveData<String>()
+    val finishGameLiveData: LiveData<String> get() = _finishGameLiveData
 
     init {
         viewModelScope.launch(Dispatchers.IO) {
             updateUIShipInfo()
             updateFavoriteStations()
+            initTimer()
         }
         getStations()
     }
@@ -46,13 +53,12 @@ class StationListViewModel(
         viewModelScope.launch {
             _sliderAdapterLiveData.value = Resource.Loading
             runCatching {
-                stationRepository.fetchStationList()?.takeIf { it.isNotEmpty() }?.let { list ->
+                val resource = gameManager.getStations()
+                if (resource is Resource.Success) {
                     currentStationObservable.set(stationRepository.getCurrentStation())
-                    _sliderAdapterLiveData.value = Resource.Success(getAdapterData(list))
-                    initTimer()
-                } ?: run {
-                    _sliderAdapterLiveData.value = Resource.Error("Network Hatası - EMPTY LIST")
+                    startTimer()
                 }
+                _sliderAdapterLiveData.value = resource
             }.onFailure {
                 it.printStackTrace()
                 _sliderAdapterLiveData.value = Resource.Error(it.message)
@@ -60,47 +66,53 @@ class StationListViewModel(
         }
     }
 
-    private suspend fun getAdapterData(list: List<StationEntity>) = AdapterDataMapper(
-        stationList = list,
-        stationRepository.getCurrentStation(),
-        shipRepository.getShipData()
-    ).execute()
+    private suspend fun initTimer() {
+        timer.run {
+            maxCounter = gameManager.getTimerMaxCounter()
+            onTick = Task {
+                timerObservable.set("${it}s")
+            }
+            onEndTime = Task {
+                viewModelScope.launch(Dispatchers.IO) {
+                    gameManager.checkShipAndStationEquipmentOrError()?.let {
+                        returnTheWorld(it)
+                        return@launch
+                    }
 
+                    shipRepository.saveShipData(shipRepository.getShipData().apply {
+                        health -= 10
+                    })
+                    updateUIShipInfo()
+                }
+            }
+        }
+    }
 
     fun onStationButtonClick(stationItem: StationItemData) {
         viewModelScope.launch(Dispatchers.IO) {
-            updateEUS(stationItem)
-            updateUGS(stationItem)
-            updateUIShipInfo()
 
+            gameManager.checkShipAndStationEquipmentOrError()?.let {
+                returnTheWorld(it)
+                return@launch
+            }
+
+            if (!gameManager.checkAndUpdateStockEUS(stationItem)) {
+                returnTheWorld(R.string.low_ship_eus)
+                return@launch
+            }
+
+            updateUIShipInfo()
             updateCurrentLocation(stationItem.data)
             updateAdapterData(stationItem)
         }
     }
 
-    private suspend fun updateUGS(stationItem: StationItemData) {
-        shipRepository.saveShipData(shipRepository.getShipData().apply {
-            this.capacity -= stationItem.data.need ?: 0
-        })
-
-        stationRepository.updateStation(stationItem.data.apply {
-            stock = capacity
-            need = 0
-        })
-    }
-
-    private suspend fun updateEUS(stationItem: StationItemData) {
-        val newShipData = shipRepository.getShipData().apply {
-            stationItem.eus?.toInt()?.let {
-                speed -= it
-            }
-        }
-        shipRepository.saveShipData(newShipData)
-    }
-
     private suspend fun updateAdapterData(selected: StationItemData? = null) {
-        stationRepository.getCachedStationList()?.let {
-            _sliderAdapterLiveData.postValue(Resource.Success(getAdapterData(it), selected))
+        stationRepository.getCachedStationList()?.let { list ->
+            val selectedPosition = list.indexOfFirst { it.name == selected?.name }
+            _sliderAdapterLiveData.postValue(
+                gameManager.getAdapterData(list, selectedPosition)
+            )
         }
     }
 
@@ -121,27 +133,26 @@ class StationListViewModel(
             updateAdapterData(stationItem)
             updateFavoriteStations()
         }
-
     }
 
     private suspend fun updateFavoriteStations() {
         stationRepository.getFavoriteStationList()?.let {
-            _favoriteAdapterLiveData.postValue(Resource.Success(getAdapterData(it)))
+            _favoriteAdapterLiveData.postValue(gameManager.getAdapterData(it))
         }
     }
 
-    private fun initTimer() {
-        viewModelScope.launch {
-            while (timerIsActive) {
-                delay(1000L)
-                timerObservable.set("${counter++}s")
-            }
-        }
+    private suspend fun returnTheWorld(resId: Int) {
+        timer.stop()
+        updateCurrentLocation(stationRepository.getWorldStation())
+        _finishGameLiveData.postValue(resourcesProvider.getString(resId))
+    }
+
+    fun startTimer() {
+        timer.start()
     }
 
     override fun onCleared() {
-        timerIsActive = false
+        timer.stop()
         super.onCleared()
     }
-
 }
