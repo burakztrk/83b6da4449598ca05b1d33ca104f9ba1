@@ -29,6 +29,7 @@
 <img src="img/2_loading.png" alt="drawing" width="200"/><img src="img/3_station_first_look.png" alt="drawing" width="200"/>
 <img src="img/4_search_autocomplete.png" alt="drawing" width="200"/><img src="img/5_success_station.png" alt="drawing" width="200"/>
 <img src="img/6_favorites.png" alt="drawing" width="200"/><img src="img/7_eus_error.png" alt="drawing" width="200"/>
+<img src="img/8_stock_error.png" alt="drawing" width="200"/><img src="img/09_crash.png" alt="drawing" width="200"/>
 
 ```gradle
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
