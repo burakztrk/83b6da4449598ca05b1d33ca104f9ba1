@@ -6,7 +6,7 @@
     <data>
         <variable
             name="viewData"
-            type="com.ozturkburak.outerworlds.features.stationlist.station.list.StationItemData" />
+            type="com.ozturkburak.outerworlds.data.entity.StationItemData" />
     </data>
 
     <androidx.cardview.widget.CardView

@@ -1,7 +1,7 @@
 package com.ozturkburak.outerworlds.di
 
-import com.ozturkburak.outerworlds.features.shipcreator.ShipCreatorViewModel
-import com.ozturkburak.outerworlds.features.stationlist.StationListViewModel
+import com.ozturkburak.outerworlds.ui.shipcreator.ShipCreatorViewModel
+import com.ozturkburak.outerworlds.ui.stationlist.StationListViewModel
 import org.koin.android.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 

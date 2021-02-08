@@ -8,7 +8,7 @@
 
         <variable
             name="viewModel"
-            type="com.ozturkburak.outerworlds.features.stationlist.StationListViewModel" />
+            type="com.ozturkburak.outerworlds.ui.stationlist.StationListViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -17,7 +17,7 @@
         android:layout_height="match_parent"
         android:paddingStart="16dp"
         android:paddingEnd="16dp"
-        tools:context=".features.stationlist.station.StationFragment">
+        tools:context=".ui.stationlist.StationFragment">
 
         <TextView
             android:id="@+id/label_ugs"

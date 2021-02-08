@@ -1,9 +1,9 @@
 package com.ozturkburak.outerworlds.di
 
-import com.ozturkburak.outerworlds.repo.ShipRepository
-import com.ozturkburak.outerworlds.repo.ShipRepositoryImpl
-import com.ozturkburak.outerworlds.repo.StationRepository
-import com.ozturkburak.outerworlds.repo.StationRepositoryImpl
+import com.ozturkburak.outerworlds.data.repo.ShipRepository
+import com.ozturkburak.outerworlds.data.repo.ShipRepositoryImpl
+import com.ozturkburak.outerworlds.data.repo.StationRepository
+import com.ozturkburak.outerworlds.data.repo.StationRepositoryImpl
 import org.koin.dsl.module
 
 val repositoryModule = module {

@@ -7,13 +7,13 @@
 
         <variable
             name="viewModel"
-            type="com.ozturkburak.outerworlds.features.stationlist.StationListViewModel" />
+            type="com.ozturkburak.outerworlds.ui.stationlist.StationListViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".features.stationlist.favorites.FavoriteFragment">
+        tools:context=".ui.stationlist.FavoriteFragment">
 
         <TextView
             android:id="@+id/label_favorites"

@@ -2,8 +2,8 @@ package com.ozturkburak.outerworlds.di
 
 import android.app.Application
 import androidx.room.Room
-import com.ozturkburak.outerworlds.database.DBConstants
-import com.ozturkburak.outerworlds.database.GameDatabase
+import com.ozturkburak.outerworlds.data.local.DBConstants
+import com.ozturkburak.outerworlds.data.local.GameDatabase
 import org.koin.dsl.module
 
 val databaseModule = module {

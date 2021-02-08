@@ -1,8 +1,8 @@
 package com.ozturkburak.outerworlds.di
 
 import com.ozturkburak.outerworlds.BuildConfig
-import com.ozturkburak.outerworlds.api.StationApi
-import com.ozturkburak.outerworlds.base.Constants
+import com.ozturkburak.outerworlds.data.remote.StationApi
+import com.ozturkburak.outerworlds.utils.Constants
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import org.koin.dsl.module
